@@ -96,17 +96,19 @@ function borrarProducto($idProducto){
 }
 
 //Función seleccionarTodosProductos
-function seleccionarTodosProductos(){
+function seleccionarTodasOfertas(){
 	$con=conectarBD();
 	try{
 		$sql = "SELECT * FROM productos";
 		
-		$stmt = $con->query($sql);
+		$stmt = $con->prepare($sql);
+		
+		$stmt->execute();
 		
 		$rows = $stmt->fetchAll(PDO::FETCH_ASSOC); //usamos fetchAll cuando puede devolver más de una fila
 	}
 	catch(PDOException $e){
-		echo "Error: Error al seleccionar todas los productos: ".$e->getMessage();
+		echo "Error: Error al seleccionar todos los productos: ".$e->getMessage();
 		file_put_contents("PDOErrors.txt", "\r\n".date('j F, Y, g:i a').$e->getMessage(), FILE_APPEND);
 		exit;
 	}
@@ -129,7 +131,7 @@ function seleccionarProducto($idProducto){
 		$row = $stmt->fetch(PDO::FETCH_ASSOC); //usamos fetch cuando sabemos que solamente nos devolverá una fila
 	}
 	catch(PDOException $e){
-		echo "Error: Error al seleccionar un producto: ".$e->getMessage();
+		echo "Error: Error al seleccionar una oferta: ".$e->getMessage();
 		file_put_contents("PDOErrors.txt", "\r\n".date('j F, Y, g:i a').$e->getMessage(), FILE_APPEND);
 		exit;
 	}
