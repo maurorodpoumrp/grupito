@@ -38,6 +38,7 @@
 	  <th scope="col">Apellidos</th>
 	  <th scope="col">Direccion</th>
 	  <th scope="col">Telefono</th>
+	  <th scope="col">Online</th>
     </tr>
   </thead>
   <tbody>
@@ -49,6 +50,7 @@
 		$apellidos=$usu['apellidos'];
 		$direccion=$usu['direccion'];
 		$telefono=$usu['telefono'];
+		$online=$usu['online'];
 	?>
 		<tr>
 			<th scope="row"><?php echo $idUsuario; ?></th>
@@ -57,8 +59,10 @@
 			<td><?php echo $apellidos; ?></td>
 			<td><?php echo $direccion; ?></td>
 			<td><?php echo $telefono; ?></td>
+			<td><?php echo $online; ?></td>
 			<td>
 			 <a href='actualizarUsuario.php?email=<?php echo $email; ?>' class='btn btn-outline-primary'>Editar</a>
+			 <a href='cambiarPass.php?email=<?php echo $email; ?>' class='btn btn-info'>Cambiar Contraseña</a>
 			 <a href='borrarUsuario.php?email=<?php echo $email; ?>' onClick="return Confirmar('¿Realmente deseas borrar el registro?');" class='btn btn-danger'>Borrar</a>
 			</td>
 		</tr>

@@ -56,7 +56,7 @@ function imprimirFormulario($nombre,$introDescripcion,$descripcion,$imagen,$prec
 		$precio = "";
 		$precioOferta = "";
 		imprimirFormulario($nombre,$introDescripcion,$descripcion,$imagen,$precio,$precioOferta);
-		echo "<p><a href='listaUsuarios.php' class='btn btn-primary'>Volver al listado</a></p>";
+		echo "<p><a href='listaProductos.php' class='btn btn-primary'>Volver al listado</a></p>";
 	}
 	else{
 		$nombre=recoge("nombre");
@@ -89,4 +89,21 @@ function imprimirFormulario($nombre,$introDescripcion,$descripcion,$imagen,$prec
 		if($errores!=""){
 			echo "<h2>Errores</h2> <ul>$errores</ul>";
 			imprimirFormulario($nombre,$introDescripcion,$descripcion,$imagen,$precio,$precioOferta);
-			echo "<p><a href='listaUsuarios.php' class='btn btn-primary'>Volver al listado</a></p>";
+			echo "<p><a href='listaProductos.php' class='btn btn-primary'>Volver al listado</a></p>";
+		}
+		else{
+			$idProducto = insertarProducto($nombre,$introDescripcion,$descripcion,$imagen,$precio,$precioOferta);
+			if ($idProducto!=0){
+				echo "<div class=\"alert alert-success\" role=\"alert\"> Producto $idProducto insertado correctamente </div>";
+				echo "<p><a href='listaProductos.php' class='btn btn-primary'>Volver al listado</a></p>";
+			}
+			else{
+				echo "<div class=\"alert alert-danger\" role=\"alert\">ERROR: Producto NO insertado </div>";
+				imprimirFormulario($nombre,$introDescripcion,$descripcion,$imagen,$precio,$precioOferta);
+			}
+		}
+	}
+	}
+	else{
+		header("Location:index.php");
+	}

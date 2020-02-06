@@ -3,24 +3,12 @@
 <?php require_once "inc/funciones.php"; ?>
 <?php require_once "inc/encabezado.php"; ?>
 <?php
-function imprimirFormulario($email,$nombre,$apellidos,$direccion,$telefono){
+function imprimirFormulario($email,$nombre,$apellidos,$direccion,$telefono,$online){
 ?>
 <form method="post">
   <div class="form-group">
     <label for="email">Email</label>
     <input type="text" class="form-control" id="email" name="email" value='<?php echo "$email";?>'  readonly="readonly"/>
-  </div>
-  <div class="form-group">
-    <label for="OldPassword">Contraseña antigua</label>
-    <input type="password" class="form-control" id="OldPassword" name="OldPassword"/>
-  </div>
-  <div class="form-group">
-    <label for="NewPassword1">Contraseña nueva</label>
-    <input type="password" class="form-control" id="NewPassword1" name="NewPassword1"/>
-  </div>
-  <div class="form-group">
-    <label for="NewPassword2">Repite la contraseña nueva</label>
-    <input type="password" class="form-control" id="NewPassword2" name="NewPassword2"/>
   </div>
   <div class="form-group">
     <label for="nombre">Nombre: </label>
@@ -38,7 +26,15 @@ function imprimirFormulario($email,$nombre,$apellidos,$direccion,$telefono){
     <label for="telefono">Telefono: </label>
     <input type="text" class="form-control" id="telefono" name="telefono" value='<?php echo "$telefono"; ?>'/>
   </div>
-  <button type="submit" class="btn btn-primary" name="guardar" value="guardar">Guardar</button>
+  <div class="form-check form-check-inline">
+  <input class="form-check-input" type="radio" name="online" id="si" value="1" <?php if ($online=="1"){ echo "checked='checked'"; } ?>/>
+  <label class="form-check-label" for="si">Online</label>
+</div>
+<div class="form-check form-check-inline">
+  <input class="form-check-input" type="radio" name="online" id="no" value="0" <?php if ($online=="0"){ echo "checked='checked'"; } ?>/> 
+  <label class="form-check-label" for="no">Offline</label>
+</div>
+  <p><button type="submit" class="btn btn-primary" name="guardar" value="guardar">Guardar</button></p>
 </form>
 <?php
 }
@@ -68,38 +64,26 @@ function imprimirFormulario($email,$nombre,$apellidos,$direccion,$telefono){
 		$apellidos=$usu['apellidos'];
 		$direccion=$usu['direccion'];
 		$telefono=$usu['telefono'];
+		$online=$usu['online'];
 		
 		if (empty($usu)){ 
 			header("Location: listaUsuarios.php");
 			exit();
 		}
-		imprimirFormulario($email,$nombre,$apellidos,$direccion,$telefono);
+		imprimirFormulario($email,$nombre,$apellidos,$direccion,$telefono,$online);
 		echo "<p><a href='listaUsuarios.php' class='btn btn-primary'>Volver al listado</a></p>";
 	}
 	else{
 		$email=recoge("email");
 		$usu=seleccionarUsuario($email);
-		$OldPassword=recoge("OldPassword");
-		$NewPassword1=recoge("NewPassword1");
-		$NewPassword2=recoge("NewPassword2");
 		$nombre=recoge("nombre");
 		$apellidos=recoge("apellidos");
 		$direccion=recoge("direccion");
 		$telefono=recoge("telefono");
-		
-		$okuser = password_verify($OldPassword,$usu["password"]);
-		
+		$online=recoge("online");
+			
 		$errores = "";
 		
-		if ($okuser==FALSE){
-			$errores=$errores."<li>Tu password antigua no es correcta</li>";
-		}
-		if ($NewPassword1==""){
-			$errores=$errores."<li>No puedes dejar la nueva password vacía</li>";
-		}
-		if ($NewPassword1!=$NewPassword2){
-			$errores=$errores."<li>Tienen que coincidir ambas contraseñas</li>";
-		}
 		if ($nombre==""){
 			$errores=$errores."<li>No puedes dejar el nombre vacío</li>";
 		}		
@@ -114,11 +98,11 @@ function imprimirFormulario($email,$nombre,$apellidos,$direccion,$telefono){
 		}
 		if($errores!=""){
 			echo "<h2>Errores</h2> <ul>$errores</ul>";
-			imprimirFormulario($email,$nombre,$apellidos,$direccion,$telefono);
+			imprimirFormulario($email,$nombre,$apellidos,$direccion,$telefono,$online);
 			echo "<p><a href='listaUsuarios.php' class='btn btn-primary'>Volver al listado</a></p>";
 		}
-				else{
-			$ok = actualizarUsuario($email,$NewPassword1);
+		else{
+			$ok = actualizarUsuario($email,$nombre,$apellidos,$direccion,$telefono,$online);
 			
 			if ($ok){
 				echo "<div class=\"alert alert-success\" role=\"alert\"> Usuario con email $email actualizado correctamente </div>";
@@ -126,7 +110,7 @@ function imprimirFormulario($email,$nombre,$apellidos,$direccion,$telefono){
 			}
 			else{
 				echo "<div class=\"alert alert-danger\" role=\"alert\">ERROR: Tarea NO actualizada </div>";
-				imprimirFormulario($email,$nombre,$apellidos,$direccion,$telefono);
+				imprimirFormulario($email,$nombre,$apellidos,$direccion,$telefono,$online);
 				echo "<p><a href='listaUsuarios.php' class='btn btn-primary'>Volver al listado</a></p>";
 			}
 		}

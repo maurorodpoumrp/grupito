@@ -41,6 +41,7 @@
 	  <th scope="col">Imágen</th>
 	  <th scope="col">Precio</th>
 	  <th scope="col">Precio Oferta</th>
+	  <th scope="col">Online</th>
     </tr>
   </thead>
   <tbody>
@@ -53,6 +54,7 @@
 		$imagen=$producto['imagen'];
 		$precio=$producto['precio'];
 		$precioOferta=$producto['precioOferta'];
+		$online=$producto['online'];
 	?>
 	<tr>
 			<th scope="row"><?php echo $idProducto; ?></th>
@@ -62,9 +64,10 @@
 			<td><img src="img/<?php echo $imagen; ?>" alt="<?php echo $imagen; ?>" height="128" width="128"></td>
 			<td><?php echo $precio; ?></td>
 			<td><?php echo $precioOferta; ?></td>
+			<td><?php echo $online; ?></td>
 			<td>
 			 <a href='actualizarProducto.php?idProducto=<?php echo $idProducto; ?>' class='btn btn-outline-primary'>Editar</a>
-			 <a href='borrarProducto.php?idProducto=<?php echo $idProducto; ?>' onClick="return Confirmar('¿Realmente deseas borrar el registro?');" class='btn btn-danger'>Borrar</a>
+			 <a href='borrarProducto.php?idProducto=<?php echo $idProducto; ?>' onClick="return Confirmar('¿Realmente deseas poner el producto en offline?');" class='btn btn-danger'>Borrar</a>
 			</td>
 	</tr>
 	<?php
