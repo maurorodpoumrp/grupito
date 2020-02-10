@@ -1,4 +1,8 @@
+<?php session_start(); ?>
 <?php require_once("bbdd/bbdd.php"); ?>
+<?php 	$pagina="productos";
+		$titulo="Todas nuestras ofertas";
+?>
 <?php require_once("inc/funciones.php"); ?>
 <?php require_once("inc/encabezado.php"); ?>
 
