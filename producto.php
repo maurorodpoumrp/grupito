@@ -36,7 +36,7 @@
 			<p><?php echo $descripcion; ?></p>
 			
 			<div class="col-12 mx-auto d-flex justify-content-center">
-				<a href="carrito.php" class="btn btn-success text-justify"> Añadir al carrito </a>
+				<a href="procesarCarrito.php?id=<?php echo $idProducto; ?>&op=add" class="btn btn-success text-justify"> Añadir al carrito </a>
 			</div>
 		</div>
 		

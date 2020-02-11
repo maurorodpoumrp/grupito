@@ -40,3 +40,15 @@ function recoge($var, $m = "")
     return $tmp;
 } // FUNCIÓN DE RECOGIDA DE DATOS
 ?>
+
+<?php
+function mostrarMensaje($mensaje){
+?>
+<div class="jumbotron bg-transparent">
+	<div class="container">
+		<h1><?php echo $mensaje; ?></h1>
+	</div>
+</div>
+<?php
+}
+?>
