@@ -36,7 +36,7 @@
   <div class="jumbotron">
     <div class="container">
       <h1 class="display-3">Acceso</h1>
-      <p><a href="#">Crea una cuenta</a> si aún no tienes una</p>
+      <p><a href="registro.php">Crea una cuenta</a> si aún no tienes una</p>
     </div>
   </div>
   
@@ -60,6 +60,7 @@
 			}
 			else{
 				$_SESSION["usuario"]=$usuario;
+				$_SESSION["email"]=$email;
 				header("Location:index.php");
 			}
 		}
