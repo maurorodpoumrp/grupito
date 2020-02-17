@@ -5,7 +5,7 @@
 		$email=$_SESSION['email'];
 		$usu = seleccionarUsuario($email);
 		$pagina="misdatos";
-		$titulo="Regístrate";
+		$titulo="Mis datos";
 ?>
 <?php require_once("inc/encabezado.php"); ?>
 <main role="main">
@@ -14,7 +14,7 @@
   <div class="jumbotron">
     <div class="container">
       <h1 class="display-3">Mis datos</h1>
-      <p>Datos del usuario </p>
+      <p>Datos del usuario <?php echo $email; ?></p>
     </div>
   </div>
   
