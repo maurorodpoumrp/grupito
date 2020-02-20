@@ -39,7 +39,7 @@
 			
 			if($idPedido!=0){
 				unset($_SESSION['carrito']);
-				echo "<div class=\"alert alert-success\" role=\"alert\">Pedido $idPedido insertado correctamente </div>";
+				echo "<div class=\"alert alert-success\" role=\"alert\">Tu pedido $idPedido y un total de $total € se ha realizado correctamente </div>";
 				echo "<p><a class=\"btn btn-primary\" href=\"index.php\" role=\"button\">Volver al index</a></p>";
 			}
 			else{

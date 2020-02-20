@@ -386,4 +386,24 @@ function insertarPedido($idUsuario, $detallePedido, $total){
 	}
 	return $idPedido;
 }
+
+//Funcion seleccionarPedidos
+function seleccionarPedidos($idUsuario){
+	$con=conectarBD();
+	try{
+		$sql = "SELECT * FROM pedidos WHERE idUsuario=:idUsuario";
+		
+		$stmt = $con->prepare($sql);
+		$stmt->bindParam(':idUsuario',$idUsuario);
+		$stmt->execute();
+		
+		$rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+	}
+	catch(PDOException $e){
+		echo "Error: Error al seleccionar pedidos: ".$e->getMessage();
+		file_put_contents("PDOErrors.txt", "\r\n".date('j F, Y, g:i a').$e->getMessage(), FILE_APPEND);
+		exit;
+	}
+	return $rows;
+}
 ?>
