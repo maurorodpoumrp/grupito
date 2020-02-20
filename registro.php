@@ -109,13 +109,15 @@ function imprimirFormulario($email,$nombre,$apellidos,$direccion,$telefono){
 					$email="";
 					imprimirFormulario($email,$nombre,$apellidos,$direccion,$telefono);
 				}
-				$verificar=insertarUsuario($email,$password,$nombre,$apellidos,$direccion,$telefono);
-				if ($verificar!=0){
-					echo "<div class=\"alert alert-success\" role=\"alert\"> Usuario creado correctamente (Inicia sesión arriba a la derecha) </div>";
-				}
 				else{
-					echo "<div class=\"alert alert-danger\" role=\"alert\">ERROR: Usuario NO insertado </div>";
-					imprimirFormulario($email,$nombre,$apellidos,$direccion,$telefono);
+					$verificar=insertarUsuario($email,$password,$nombre,$apellidos,$direccion,$telefono);
+					if ($verificar!=0){
+						echo "<div class=\"alert alert-success\" role=\"alert\"> Usuario creado correctamente (Inicia sesión arriba a la derecha) </div>";
+					}
+					else{
+						echo "<div class=\"alert alert-danger\" role=\"alert\">ERROR: Usuario NO insertado </div>";
+						imprimirFormulario($email,$nombre,$apellidos,$direccion,$telefono);
+					}
 				}
 			}
 		}

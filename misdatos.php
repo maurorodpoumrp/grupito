@@ -19,7 +19,29 @@
   </div>
   
   <div class="container">
-  
+	<?php
+		$nombre=$usu['nombre'];
+		$apellidos=$usu['apellidos'];
+		$direccion=$usu['direccion'];
+		$telefono=$usu['telefono'];
+	?>
+	<p class="text-left">
+		<strong>Nombre:</strong> <?php echo $nombre; ?>	
+	</p>
+	<p class="text-left">
+		<strong>Apellidos:</strong> <?php echo $apellidos; ?> 
+	</p>
+	<p class="text-left">
+		<strong>Dirección:</strong> <?php echo $direccion; ?> 		
+	</p>
+	<p class="text-left">
+		<strong>Teléfono:</strong> <?php echo $telefono; ?> 		
+	</p>
+	<p>
+		<a class="btn btn-warning" href="actualizarUsuario.php?email=<?php echo $email; ?>" role="button">Editar perfil</a>
+		<a class="btn btn-info" href="cambiarContra.php?email=<?php echo $email; ?>" role="button">Cambia tu contraseña</a>
+		<a class="btn btn-danger" href="#" role="button">Eliminar cuenta</a>
+	</p>
   </div>
   
   <hr/>

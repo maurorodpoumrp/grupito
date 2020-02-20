@@ -278,8 +278,8 @@ function insertarUsuario($email,$password,$nombre,$apellidos,$direccion,$telefon
 	return $stmt->rowCount();
 }
 
-//Función para actualizarUsuario usuario
-function actualizarUsuario($email,$password){
+//Función para actualizarContra
+function actualizarContra($email,$password){
 	$con=conectarBD();
 	$password=password_hash($password,PASSWORD_DEFAULT);
 	try{
@@ -289,6 +289,33 @@ function actualizarUsuario($email,$password){
 		
 		$stmt->bindParam(':email',$email);
 		$stmt->bindParam(':password',$password);
+		
+		$stmt->execute();
+		
+	}
+	catch(PDOException $e){
+		echo "Error: Error al actualizar usuario: ".$e->getMessage();
+		file_put_contents("PDOErrors.txt", "\r\n".date('j F, Y, g:i a').$e->getMessage(), FILE_APPEND);
+		exit;
+	}
+	
+	return $stmt->rowCount();
+}
+
+//Función para actualizarUsuario
+function actualizarUsuario($email,$nombre,$apellidos,$direccion,$telefono){
+	$con=conectarBD();
+	
+	try{
+		$sql = "UPDATE usuarios SET nombre=:nombre, apellidos=:apellidos, direccion=:direccion, telefono=:telefono WHERE email=:email";
+		
+		$stmt = $con->prepare($sql);
+		
+		$stmt->bindParam(':email',$email);
+		$stmt->bindParam(':nombre',$nombre);
+		$stmt->bindParam(':apellidos',$apellidos);
+		$stmt->bindParam(':direccion',$direccion);
+		$stmt->bindParam(':telefono',$telefono);
 		
 		$stmt->execute();
 		
@@ -327,19 +354,19 @@ function borrarUsuario($email){
 function insertarPedido($idUsuario, $detallePedido, $total){
 	$con=conectarBD();
 	try{
-		$conexion -> beginTransaction();
+		$con -> beginTransaction();
 		$sql = "INSERT INTO pedidos(idUsuario,total) VALUES(:idUsuario,:total)";
-		$sentencia = $conexion->prepare($sql);
+		$sentencia = $con->prepare($sql);
 		$sentencia->bindParam(':idUsuario',$idUsuario);
 		$sentencia->bindParam(':total',$total);
 		$sentencia->execute();
 		
-		$idPedido = $conexion->lastInsertID();
+		$idPedido = $con->lastInsertID();
 		foreach ($detallePedido as $idProducto=>$cantidad){
 			$producto=seleccionarProducto($idProducto);
 			$precio=$producto['precioOferta'];
 			$sql2="INSERT INTO detallepedido(idPedido,idProducto,cantidad,precio) VALUES(:idPedido,:idProducto,:cantidad,:precio)";
-			$sentencia= $conexion->prepare($sql2);
+			$sentencia= $con->prepare($sql2);
 			$sentencia->bindParam(':idPedido',$idPedido);
 			$sentencia->bindParam(':idProducto',$idProducto);
 			$sentencia->bindParam(':cantidad',$cantidad);
@@ -347,11 +374,11 @@ function insertarPedido($idUsuario, $detallePedido, $total){
 			
 			$sentencia->execute();
 		}
-		$conexion->commit();
+		$con->commit();
 	}
 	catch(PDOException $e){
 		
-		$conexion->rollback();
+		$con->rollback();
 		echo "Error: Error al insertar pedido: ".$e->getMessage();
 		file_put_contents("PDOErrors.txt", "\r\n".date('j F, Y, g:i a').$e->getMessage(), FILE_APPEND);
 		exit;
