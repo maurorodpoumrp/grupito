@@ -406,4 +406,47 @@ function seleccionarPedidos($idUsuario){
 	}
 	return $rows;
 }
+
+//Funcion seleccionarPedido
+function seleccionarPedido($idPedido){
+	$con=conectarBD();
+	try{
+		$sql = "SELECT * FROM pedidos WHERE idPedido=:idPedido";
+		
+		$stmt = $con->prepare($sql);
+		
+		$stmt->bindParam(':idPedido',$idPedido);
+		
+		$stmt->execute();
+		
+		$row = $stmt->fetch(PDO::FETCH_ASSOC); //usamos fetch cuando sabemos que solamente nos devolverá una fila
+	}
+	catch(PDOException $e){
+		echo "Error: Error al seleccionar un pedido: ".$e->getMessage();
+		file_put_contents("PDOErrors.txt", "\r\n".date('j F, Y, g:i a').$e->getMessage(), FILE_APPEND);
+		exit;
+	}
+	
+	return $row;
+}
+
+//Funcion seleccionarDetallePedido
+function seleccionarDetallePedido($idPedido){
+	$con=conectarBD();
+	try{
+		$sql="SELECT * FROM detallepedido WHERE idPedido=:idPedido";
+		
+		$stmt = $con->prepare($sql);
+		$stmt->bindParam(':idPedido',$idPedido);
+		$stmt->execute();
+		
+		$rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+	}
+	catch(PDOException $e){
+		echo "Error: Error al seleccionar detalles del pedido: ".$e->getMessage();
+		file_put_contents("PDOErrors.txt", "\r\n".date('j F, Y, g:i a').$e->getMessage(), FILE_APPEND);
+		exit;
+	}
+	return $rows;
+}
 ?>

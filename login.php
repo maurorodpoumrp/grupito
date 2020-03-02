@@ -67,7 +67,7 @@
 		?>	
 	</div>	
 </main>
-<?php require_once("inc/pie.php"); ?>
 <?php
 	}
 ?>
+<?php require_once("inc/pie.php"); ?>

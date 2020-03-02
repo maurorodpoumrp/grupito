@@ -52,7 +52,7 @@
 		<td scope="col" class="text-center"><?php echo $fecha; ?></td>
 		<td scope="col" class="text-center"><?php echo $estado; ?></td>
 		<td scope="col" class="text-center"><?php echo $total."€"; ?></td>
-		<td scope="col" class="text-center"><a class="btn btn-outline-secondary" href="detallepedido.php?id=<?php echo $idPedido; ?>" role="button">Ver pedido</a></td>
+		<td scope="col" class="text-center"><a class="btn btn-outline-secondary" href="detallepedido.php?idPedido=<?php echo $idPedido; ?>" role="button">Ver pedido</a></td>
 	</tr>
 	<?php
 	}
