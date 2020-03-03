@@ -35,7 +35,7 @@ function imprimirFormulario($email,$nombre,$asunto,$contenido){
   <div class="jumbotron">
     <div class="container">
       <h1 class="display-3">Contacto</h1>
-      <p >Formulario de contacto</p>
+      <p>Formulario de contacto</p>
     </div>
   </div>
   

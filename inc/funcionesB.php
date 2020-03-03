@@ -69,18 +69,27 @@ function enviarMail($email,$nombre,$asunto,$contenido){
 		//Server settings
 		$mail->SMTPDebug = 0; //SMTP::DEBUG_SERVER;                      // Enable verbose debug output
 		$mail->isSMTP();                                            // Send using SMTP
-		$mail->Host       = 'smtp.gmail.com';                    // Set the SMTP server to send through
+		
+		$mail->SMTPOptions = array(
+		'ssl' => array(
+			'verify_peer' => true,
+			'verify_depth' => 3,
+			'cafile' => '/etc/ssl/certs/mail.sri.pem'
+			)	
+		);
+		
+		$mail->Host       = 'mail.mauro.sri';                    // Set the SMTP server to send through
 		$mail->SMTPAuth   = true;                                   // Enable SMTP authentication
-		$mail->Username   = 'maurorodpou.mrp@gmail.com';                     // SMTP username
-		$mail->Password   = 'jrweihxirutwpjdv';                               // SMTP password
+		$mail->Username   = 'mauro@mauro.sri';                     // SMTP username
+		$mail->Password   = 'abc123.';                               // SMTP password
 		$mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;         // Enable TLS encryption; `PHPMailer::ENCRYPTION_SMTPS` also accepted
-		$mail->Port       = 587;                                    // TCP port to connect to
+		$mail->Port       = 143;                                    // TCP port to connect to
 
 		//Recipients
 		$mail->setFrom($email, $nombre);
-		$mail->addAddress('maurorodpou.mrp@gmail.com', 'Mauro');     // Add a recipient
+		$mail->addAddress('mauro@mauro.sri', 'Mauro');     // Add a recipient
 		//$mail->addAddress('maurorodpou.mrp@gmail.com');               // Name is optional
-		//$mail->addReplyTo('info@example.com', 'Information');
+		//$mail->addReplyTo($mail, $nombre);
 		//$mail->addCC('cc@example.com');
 		//$mail->addBCC('bcc@example.com');
 
