@@ -9,3 +9,13 @@
 18 February, 2020, 6:00 pmSQLSTATE[23000]: Integrity constraint violation: 1048 Column 'total' cannot be null
 20 February, 2020, 1:20 pmSQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ':idUsuario' at line 1
 20 February, 2020, 1:20 pmSQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ':idUsuario' at line 1
+27 March, 2020, 11:53 amSQLSTATE[HY093]: Invalid parameter number: number of bound variables does not match number of tokens
+27 March, 2020, 11:53 amSQLSTATE[HY093]: Invalid parameter number: number of bound variables does not match number of tokens
+27 March, 2020, 1:13 pmSQLSTATE[HY093]: Invalid parameter number: parameter was not defined
+27 March, 2020, 1:14 pmSQLSTATE[HY093]: Invalid parameter number: parameter was not defined
+27 March, 2020, 1:15 pmSQLSTATE[HY093]: Invalid parameter number: parameter was not defined
+27 March, 2020, 1:16 pmSQLSTATE[HY093]: Invalid parameter number: parameter was not defined
+27 March, 2020, 1:16 pmSQLSTATE[HY093]: Invalid parameter number: parameter was not defined
+27 March, 2020, 1:17 pmSQLSTATE[HY093]: Invalid parameter number: parameter was not defined
+27 March, 2020, 1:17 pmSQLSTATE[HY093]: Invalid parameter number: parameter was not defined
+27 March, 2020, 1:17 pmSQLSTATE[HY093]: Invalid parameter number: parameter was not defined

@@ -1,7 +1,10 @@
 <?php session_start(); ?>
-<?php require_once "inc/bbdd.php"; ?>
+<?php require_once "bbdd/bbdd.php"; ?>
 <?php require_once "inc/funciones.php"; ?>
-<?php require_once "inc/encabezado.php"; ?>
+<?php 	
+		$pagina="actualizarProducto";
+		$titulo="Actualizar Producto";
+?>
 <?php
 function imprimirFormulario($idProducto,$nombre,$introDescripcion,$descripcion,$imagen,$precio,$precioOferta,$online){
 ?>
@@ -47,22 +50,23 @@ function imprimirFormulario($idProducto,$nombre,$introDescripcion,$descripcion,$
 <?php
 }
 ?>
-<?php
-	if($_SESSION["email"]){
-?>
-<main role="main" class="container">
-<br/>
-<div class="alert alert-success" role="alert">
-		<?php echo "BIENVENIDO ".$_SESSION["email"]; ?>
-	</div><br/>
-    <h1 class="mt-5">Actualizar producto</h1>
+
+<?php require_once "inc/encabezado.php"; ?>
+<main role="main">
+  <!-- Main jumbotron for a primary marketing message or call to action -->
+  <div class="jumbotron">
+    <div class="container">
+      <h1 class="display-3">Editar una oferta</h1>
+    </div>
+  </div>
+  <div class="container">
 <?php
 	if(!isset($_REQUEST['guardar'])){
 		$idProducto=recoge("idProducto");
 		
 		
 		if($idProducto==""){
-			header("Location: listaProductos.php");
+			header("Location: adminProductos.php");
 			exit(); //die();
 		}
 		
@@ -80,7 +84,7 @@ function imprimirFormulario($idProducto,$nombre,$introDescripcion,$descripcion,$
 			exit();
 		}
 		imprimirFormulario($idProducto,$nombre,$introDescripcion,$descripcion,$imagen,$precio,$precioOferta,$online);
-		echo "<p><a href='listaProductos.php' class='btn btn-primary'>Volver al listado</a></p>";
+		echo "<p><a href='adminProductos.php' class='btn btn-primary'>Volver al listado</a></p>";
 	}
 	else{
 		$idProducto=recoge("idProducto");
@@ -119,28 +123,23 @@ function imprimirFormulario($idProducto,$nombre,$introDescripcion,$descripcion,$
 		if($errores!=""){
 			echo "<h2>Errores</h2> <ul>$errores</ul>";
 			imprimirFormulario($idProducto,$nombre,$introDescripcion,$descripcion,$imagen,$precio,$precioOferta,$online);
-			echo "<p><a href='listaProductos.php' class='btn btn-primary'>Volver al listado</a></p>";
+			echo "<p><a href='adminProductos.php' class='btn btn-primary'>Volver al listado</a></p>";
 		}
 		else{
 			$ok = actualizarProducto($nombre,$introDescripcion,$descripcion,$imagen,$precio,$precioOferta,$online,$idProducto);
 			
 			if ($ok){
 				echo "<div class=\"alert alert-success\" role=\"alert\"> Producto actualizado correctamente </div>";
-				echo "<p><a href='listaProductos.php' class='btn btn-primary'>Volver al listado</a></p>";
+				echo "<p><a href='adminProductos.php' class='btn btn-primary'>Volver al listado</a></p>";
 			}
 			else{
 				echo "<div class=\"alert alert-danger\" role=\"alert\">ERROR: Producto NO actualizado </div>";
 				imprimirFormulario($idProducto,$nombre,$introDescripcion,$descripcion,$imagen,$precio,$precioOferta,$online);
-				echo "<p><a href='listaProductos.php' class='btn btn-primary'>Volver al listado</a></p>";
+				echo "<p><a href='adminProductos.php' class='btn btn-primary'>Volver al listado</a></p>";
 			}
 		}
 	}
-	}
-	else{
-		header("Location:index.php");
-	}
 ?>
-<br/>
-<a href='logout.php' class='btn btn-danger float-right'>CERRAR SESIÓN</a>
+</div>
 </main>
 <?php require_once "inc/pie.php"; ?>

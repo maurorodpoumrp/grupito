@@ -96,6 +96,7 @@
 					<a class="dropdown-item" href="misdatos.php">Mis datos</a>
 					<a class="dropdown-item" href="mispedidos.php">Mis pedidos</a>
 					<a class="dropdown-item" href="logout.php">Cerrar Sesión</a>
+					<a class="dropdown-item" href="adminIndex.php">Admin</a>
 				</div>
 			</li>
 			<?php

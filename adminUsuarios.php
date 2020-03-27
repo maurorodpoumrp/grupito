@@ -1,19 +1,20 @@
 <?php session_start(); ?>
-<?php require_once "inc/bbdd.php"; ?>
+<?php require_once "bbdd/bbdd.php"; ?>
 <?php require_once "inc/funciones.php"; ?>
-<?php require_once "inc/encabezado.php"; ?>
-<?php 
-	if (isset($_SESSION["email"])){
+<?php 	
+		$pagina="listaUsuarios";
+		$titulo="Lista de Usuarios";
 ?>
-	<main role="main" class="container">
-	<br/>
-	<div class="alert alert-success " role="alert">
-		<?php echo "BIENVENIDO ".$_SESSION["email"]; ?>
-	</div>
-	<br/>
-    <h1 class="mt-5">Listado usuarios</h1>
-	<p><a href='insertarUsuario.php' class='btn btn-success'>Nuevo usuario</a></p>
-	<p><a href='menu.php' class='btn btn-warning'>Volver al menú</a></p>
+<?php require_once "inc/encabezado.php"; ?>
+<main role="main">
+
+  <!-- Main jumbotron for a primary marketing message or call to action -->
+  <div class="jumbotron">
+    <div class="container">
+      <h1 class="display-3">Administración de usuarios</h1>
+    </div>
+  </div>
+  <div class="container">
 	<?php
 	$usuarios = seleccionarTodosUsuarios();
 	$numUsuarios =  count($usuarios);
@@ -61,37 +62,34 @@
 			<td><?php echo $telefono; ?></td>
 			<td><?php echo $online; ?></td>
 			<td>
-			 <a href='actualizarUsuario.php?email=<?php echo $email; ?>' class='btn btn-outline-primary'>Editar</a>
-			 <a href='cambiarPass.php?email=<?php echo $email; ?>' class='btn btn-info'>Cambiar Contraseña</a>
+			 <a href='adminActualizarUsuario.php?email=<?php echo $email; ?>' class='btn btn-outline-primary'>Editar</a>
 			 <a href='borrarUsuario.php?email=<?php echo $email; ?>' onClick="return Confirmar('¿Realmente deseas borrar el registro?');" class='btn btn-danger'>Borrar</a>
 			</td>
 		</tr>
 	<?php
-	} //Fin foreach tareas
-	} //Cierro if de la sesión
-	else{
-		header("Location:index.php");
 	}
-	?>
+?>	
+	
   </tbody>
 </table>
 <nav aria-label="Page navigation example">
   <ul class="pagination">
-    <li class="page-item <?php if ($pagina==1){echo "disabled";} ?>"><a class="page-link" href="listaUsuarios.php?pagina=<?php echo $pagina-1; ?>">Anterior</a></li>
+    <li class="page-item <?php if ($pagina==1){echo "disabled";} ?>"><a class="page-link" href="adminUsuarios.php?pagina=<?php echo $pagina-1; ?>">Anterior</a></li>
 	<?php
 		for ($i=1;$i<=$paginas;$i++){
 			?>
-			<li class="page-item <?php if ($pagina==$i){echo "active";} ?>"><a class="page-link" href="listaUsuarios.php?pagina=<?php echo $i; ?>"><?php echo $i; ?></a></li>
+			<li class="page-item <?php if ($pagina==$i){echo "active";} ?>"><a class="page-link" href="adminUsuarios.php?pagina=<?php echo $i; ?>"><?php echo $i; ?></a></li>
 			<?php
 		}
 	
 	?>
     
 	
-    <li class="page-item <?php if ($pagina==$paginas){echo "disabled";} ?>"><a class="page-link" href="listaUsuarios.php?pagina=<?php echo $pagina+1; ?>">Siguiente</a></li>
+    <li class="page-item <?php if ($pagina==$paginas){echo "disabled";} ?>"><a class="page-link" href="adminUsuarios.php?pagina=<?php echo $pagina+1; ?>">Siguiente</a></li>
   </ul>
 </nav>
-<a href='logout.php' class='btn btn-danger float-right'>CERRAR SESIÓN</a>
+  </div>
+  
 </main>
 
 <script>

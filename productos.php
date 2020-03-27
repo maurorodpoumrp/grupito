@@ -8,7 +8,7 @@
 
 
 <?php
-	$productos=seleccionarTodasOfertas();
+	$productos=seleccionarTodasOfertasOnline();
 ?>
 <main role="main">
 

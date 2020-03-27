@@ -1,23 +1,22 @@
 <?php session_start(); ?>
-<?php require_once "inc/bbdd.php"; ?>
+<?php require_once "bbdd/bbdd.php"; ?>
 <?php require_once "inc/funciones.php"; ?>
-<?php require_once "inc/encabezado.php"; ?>
-
-
-<?php 
-	if (isset($_SESSION["email"])){
+<?php 	
+		$pagina="adminProductos";
+		$titulo="Admin productos";
 ?>
-	<main role="main" class="container">
-	<br/>
-	<div class="alert alert-success " role="alert">
-		<?php echo "BIENVENIDO ".$_SESSION["email"]; ?>
-	</div>
-	<br/>
-    <h1 class="mt-5">Listado de productos</h1>
-	<p><a href='insertarProducto.php' class='btn btn-success'>Nuevo producto</a></p>
-	<p><a href='menu.php' class='btn btn-warning'>Volver al menú</a></p>
-	<?php
-	$productos = seleccionarTodosProductos();
+<?php require_once "inc/encabezado.php"; ?>
+<main role="main">
+
+  <!-- Main jumbotron for a primary marketing message or call to action -->
+  <div class="jumbotron">
+    <div class="container">
+      <h1 class="display-3">Administración de productos</h1>
+    </div>
+  </div>
+  <div class="container">
+  <?php
+	$productos = seleccionarTodasOfertas();
 	$numProductos =  count($productos);
 	
 	$productosPagina = 2;
@@ -61,7 +60,7 @@
 			<td><?php echo $nombre; ?></td>
 			<td><?php echo $introDescripcion; ?></td>
 			<td><?php echo $descripcion; ?></td>
-			<td><img src="img/<?php echo $imagen; ?>" alt="<?php echo $imagen; ?>" height="128" width="128"></td>
+			<td><img src="imagenes/<?php echo $imagen; ?>" alt="<?php echo $imagen; ?>" height="128" width="128"></td>
 			<td><?php echo $precio; ?></td>
 			<td><?php echo $precioOferta; ?></td>
 			<td><?php echo $online; ?></td>
@@ -71,10 +70,6 @@
 			</td>
 	</tr>
 	<?php
-	} //Fin foreach tareas
-	} //Cierro if de la sesión
-	else{
-		header("Location:index.php");
 	}
 	?>
   </tbody>
@@ -82,21 +77,21 @@
 
 <nav aria-label="Page navigation example">
   <ul class="pagination">
-    <li class="page-item <?php if ($pagina==1){echo "disabled";} ?>"><a class="page-link" href="listaProductos.php?pagina=<?php echo $pagina-1; ?>">Anterior</a></li>
+    <li class="page-item <?php if ($pagina==1){echo "disabled";} ?>"><a class="page-link" href="adminProductos.php?pagina=<?php echo $pagina-1; ?>">Anterior</a></li>
 	<?php
 		for ($i=1;$i<=$paginas;$i++){
 			?>
-			<li class="page-item <?php if ($pagina==$i){echo "active";} ?>"><a class="page-link" href="listaProductos.php?pagina=<?php echo $i; ?>"><?php echo $i; ?></a></li>
+			<li class="page-item <?php if ($pagina==$i){echo "active";} ?>"><a class="page-link" href="adminProductos.php?pagina=<?php echo $i; ?>"><?php echo $i; ?></a></li>
 			<?php
 		}
 	
 	?>
     
 	
-    <li class="page-item <?php if ($pagina==$paginas){echo "disabled";} ?>"><a class="page-link" href="listaProductos.php?pagina=<?php echo $pagina+1; ?>">Siguiente</a></li>
+    <li class="page-item <?php if ($pagina==$paginas){echo "disabled";} ?>"><a class="page-link" href="adminProductos.php?pagina=<?php echo $pagina+1; ?>">Siguiente</a></li>
   </ul>
 </nav>
-<a href='logout.php' class='btn btn-danger float-right'>CERRAR SESIÓN</a>
+</div>
 </main>
 
 <script>

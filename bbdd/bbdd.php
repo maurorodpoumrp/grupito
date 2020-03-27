@@ -48,58 +48,32 @@ function insertarProducto($nombre,$introDescripcion,$descripcion,$imagen,$precio
 	return $con->lastInsertID();
 }
 
-//Función para actualizar producto
-function actualizarProducto($idProducto,$nombre,$introDescripcion,$descripcion,$precio,$precioOferta,$online){
-	$con=conectarBD();
-	try{
-		$sql = "UPDATE productos SET nombre=:nombre, introDescripcion=:introDescripcion, descripcion=:descripcion, precio=:precio, precioOferta=:precioOferta, online=:online WHERE idProducto=:idProducto";
-		
-		$stmt = $con->prepare($sql);
-		
-		$stmt->bindParam(':nombre',$nombre);
-		$stmt->bindParam(':introDescripcion',$introDescripcion);
-		$stmt->bindParam(':precio',$precio);
-		$stmt->bindParam(':precioOferta',$precioOferta);
-		$stmt->bindParam(':online',$online);
-		
-		$stmt->execute();
-		
-	}
-	catch(PDOException $e){
-		echo "Error: Error al actualizar producto: ".$e->getMessage();
-		file_put_contents("PDOErrors.txt", "\r\n".date('j F, Y, g:i a').$e->getMessage(), FILE_APPEND);
-		exit;
-	}
-	
-	return $stmt->rowCount();
-}
-
-//Función borrar producto
-function borrarProducto($idProducto){
-	$con=conectarBD();
-	try{
-		$sql = "DELETE FROM productos WHERE idProducto=:idProducto";
-		
-		$stmt = $con->prepare($sql);
-		
-		$stmt->bindParam(':idProducto',$idProducto);
-		
-		$stmt->execute();
-	}
-	catch(PDOException $e){
-		echo "Error: Error al eliminar producto: ".$e->getMessage();
-		file_put_contents("PDOErrors.txt", "\r\n".date('j F, Y, g:i a').$e->getMessage(), FILE_APPEND);
-		exit;
-	}
-	
-	return $stmt->rowCount();
-}
-
 //Función seleccionarTodosProductos
 function seleccionarTodasOfertas(){
 	$con=conectarBD();
 	try{
 		$sql = "SELECT * FROM productos";
+		
+		$stmt = $con->prepare($sql);
+		
+		$stmt->execute();
+		
+		$rows = $stmt->fetchAll(PDO::FETCH_ASSOC); //usamos fetchAll cuando puede devolver más de una fila
+	}
+	catch(PDOException $e){
+		echo "Error: Error al seleccionar todos los productos: ".$e->getMessage();
+		file_put_contents("PDOErrors.txt", "\r\n".date('j F, Y, g:i a').$e->getMessage(), FILE_APPEND);
+		exit;
+	}
+	
+	return $rows;
+}
+
+//Función seleccionarTodosProductosOnline
+function seleccionarTodasOfertasOnline(){
+	$con=conectarBD();
+	try{
+		$sql = "SELECT * FROM productos WHERE online=1";
 		
 		$stmt = $con->prepare($sql);
 		
@@ -163,6 +137,56 @@ function seleccionarProductos($inicio,$productosPagina){
 	return $rows;
 }
 
+//Función para actualizar producto
+function actualizarProducto($nombre,$introDescripcion,$descripcion,$imagen,$precio,$precioOferta,$online,$idProducto){
+	$con=conectarBD();
+	try{
+		$sql = "UPDATE productos SET nombre=:nombre, introDescripcion=:introDescripcion, descripcion=:descripcion, imagen=:imagen, precio=:precio, precioOferta=:precioOferta, online=:online WHERE idProducto=:idProducto";
+		
+		$stmt = $con->prepare($sql);
+		
+		$stmt->bindParam(':idProducto',$idProducto);
+		$stmt->bindParam(':nombre',$nombre);
+		$stmt->bindParam(':introDescripcion',$introDescripcion);
+		$stmt->bindParam(':descripcion',$descripcion);
+		$stmt->bindParam(':imagen',$imagen);
+		$stmt->bindParam(':precio',$precio);
+		$stmt->bindParam(':precioOferta',$precioOferta);
+		$stmt->bindParam(':online',$online);
+		
+		$stmt->execute();
+		
+	}
+	catch(PDOException $e){
+		echo "Error: Error al actualizar producto: ".$e->getMessage();
+		file_put_contents("PDOErrors.txt", "\r\n".date('j F, Y, g:i a').$e->getMessage(), FILE_APPEND);
+		exit;
+	}
+	
+	return $stmt->rowCount();
+}
+
+//Función borrar producto
+function borrarProducto($idProducto){
+	$con=conectarBD();
+	try{
+		$sql = "UPDATE productos SET online=0 WHERE idProducto=:idProducto";
+		
+		$stmt = $con->prepare($sql);
+		
+		$stmt->bindParam(':idProducto',$idProducto);
+		
+		$stmt->execute();
+	}
+	catch(PDOException $e){
+		echo "Error: Error al eliminar producto: ".$e->getMessage();
+		file_put_contents("PDOErrors.txt", "\r\n".date('j F, Y, g:i a').$e->getMessage(), FILE_APPEND);
+		exit;
+	}
+	
+	return $stmt->rowCount();
+}
+
 //Fincion seleccionar ofertas de la portada
 function seleccionarOfertasPortada($numOfertas){
 	$con=conectarBD();
@@ -189,7 +213,7 @@ function seleccionarOfertasPortada($numOfertas){
 function seleccionarUsuario($email){
 	$con=conectarBD();
 	try{
-		$sql = "SELECT * FROM usuarios WHERE email=:email";
+		$sql = "SELECT * FROM usuarios WHERE email=:email and online=1";
 		
 		$stmt = $con->prepare($sql);
 		
@@ -329,11 +353,39 @@ function actualizarUsuario($email,$nombre,$apellidos,$direccion,$telefono){
 	return $stmt->rowCount();
 }
 
+//Función para actualizarUsuario para el admin, añade término online
+function adminActualizarUsuario($email,$nombre,$apellidos,$direccion,$telefono,$online){
+	$con=conectarBD();
+	
+	try{
+		$sql = "UPDATE usuarios SET nombre=:nombre, apellidos=:apellidos, direccion=:direccion, telefono=:telefono, online=:online WHERE email=:email";
+		
+		$stmt = $con->prepare($sql);
+		
+		$stmt->bindParam(':email',$email);
+		$stmt->bindParam(':nombre',$nombre);
+		$stmt->bindParam(':apellidos',$apellidos);
+		$stmt->bindParam(':direccion',$direccion);
+		$stmt->bindParam(':telefono',$telefono);
+		$stmt->bindParam(':online',$online);
+		
+		$stmt->execute();
+		
+	}
+	catch(PDOException $e){
+		echo "Error: Error al actualizar usuario: ".$e->getMessage();
+		file_put_contents("PDOErrors.txt", "\r\n".date('j F, Y, g:i a').$e->getMessage(), FILE_APPEND);
+		exit;
+	}
+	
+	return $stmt->rowCount();
+}
+
 //Función BorrarTarea
 function borrarUsuario($email){
 	$con=conectarBD();
 	try{
-		$sql = "DELETE FROM usuarios WHERE email=:email";
+		$sql = "UPDATE usuarios SET online=0 WHERE email=:email";
 		
 		$stmt = $con->prepare($sql);
 		
@@ -385,6 +437,27 @@ function insertarPedido($idUsuario, $detallePedido, $total){
 		
 	}
 	return $idPedido;
+}
+
+//Función seleccionarTodosPedidos
+function seleccionarTodosPedidos(){
+	$con=conectarBD();
+	try{
+		$sql = "SELECT * FROM pedidos";
+		
+		$stmt = $con->prepare($sql);
+		
+		$stmt->execute();
+		
+		$rows = $stmt->fetchAll(PDO::FETCH_ASSOC); //usamos fetchAll cuando puede devolver más de una fila
+	}
+	catch(PDOException $e){
+		echo "Error: Error al seleccionar todos los productos: ".$e->getMessage();
+		file_put_contents("PDOErrors.txt", "\r\n".date('j F, Y, g:i a').$e->getMessage(), FILE_APPEND);
+		exit;
+	}
+	
+	return $rows;
 }
 
 //Funcion seleccionarPedidos
@@ -448,5 +521,50 @@ function seleccionarDetallePedido($idPedido){
 		exit;
 	}
 	return $rows;
+}
+
+//Funcion seleccionarEstados
+function seleccionarEstados(){
+	$con=conectarBD();
+	try{
+		$sql = "SELECT * FROM estado";
+		
+		$stmt = $con->prepare($sql);
+		
+		$stmt->execute();
+		
+		$rows = $stmt->fetchAll(PDO::FETCH_ASSOC); //usamos fetchAll cuando puede devolver más de una fila
+	}
+	catch(PDOException $e){
+		echo "Error: Error al seleccionar todos los estados: ".$e->getMessage();
+		file_put_contents("PDOErrors.txt", "\r\n".date('j F, Y, g:i a').$e->getMessage(), FILE_APPEND);
+		exit;
+	}
+	
+	return $rows;
+}
+
+//Función actualizarEstado
+function actualizarEstado($estado,$idPedido){
+	$con=conectarBD();
+	
+	try{
+		$sql = "UPDATE pedidos SET estado=:estado WHERE idPedido=:idPedido";
+		
+		$stmt = $con->prepare($sql);
+		
+		$stmt->bindParam(':estado',$estado);
+		$stmt->bindParam(':idPedido',$idPedido);
+		
+		$stmt->execute();
+		
+	}
+	catch(PDOException $e){
+		echo "Error: Error al actualizar estado: ".$e->getMessage();
+		file_put_contents("PDOErrors.txt", "\r\n".date('j F, Y, g:i a').$e->getMessage(), FILE_APPEND);
+		exit;
+	}
+	
+	return $stmt->rowCount();
 }
 ?>
