@@ -2,8 +2,9 @@
 <?php require_once "bbdd/bbdd.php"; ?>
 <?php require_once "inc/funciones.php"; ?>
 <?php 	
-		$pagina="adminPedidos";
-		$titulo="Menú de pedidos";
+		if ($_SESSION["admin"]==1){
+			$pagina="adminPedidos";
+			$titulo="Menú de pedidos";
 ?>
 <?php require_once "inc/encabezado.php"; ?>
 <main role="main">
@@ -54,6 +55,10 @@
 	</tr>
 	<?php
 	}
+		}
+		}
+		else{
+			header("Location:index.php");
 		}
   ?>
   </tbody>

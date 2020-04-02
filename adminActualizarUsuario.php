@@ -2,13 +2,14 @@
 <?php require_once "bbdd/bbdd.php"; ?>
 <?php require_once "inc/funciones.php"; ?>
 <?php 	
-		$email=recoge("email");
-		if($email==""){
-				header("Location: index.php");
-				exit(); //die();
-		}
-		$pagina="actualizarUsuario";
-		$titulo="Actualiza tu usuario";
+		if ($_SESSION["admin"]==1){
+			$email=recoge("email");
+			if($email==""){
+					header("Location: index.php");
+					exit(); //die();
+			}
+			$pagina="actualizarUsuario";
+			$titulo="Actualiza tu usuario";
 ?>
 <?php require_once "inc/encabezado.php"; ?>
 <?php
@@ -118,6 +119,10 @@ function imprimirFormulario($email,$nombre,$apellidos,$direccion,$telefono,$onli
 					imprimirFormulario($email,$nombre,$apellidos,$direccion,$telefono,$online);
 				}
 			}
+		}
+		}
+		else{
+			header("Location:index.php");
 		}
 	?>
   </div>

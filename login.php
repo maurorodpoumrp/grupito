@@ -52,6 +52,7 @@
 			$fila=seleccionarUsuario($email);
 			
 			$usuario=$fila['nombre'];
+			$admin=$fila['admin'];
 			
 			$ok=password_verify($pass,$fila["password"]);
 			if($ok==FALSE){
@@ -61,6 +62,7 @@
 			else{
 				$_SESSION["usuario"]=$usuario;
 				$_SESSION["email"]=$email;
+				$_SESSION["admin"]=$admin;
 				header("Location:index.php");
 			}
 		}

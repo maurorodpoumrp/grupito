@@ -2,13 +2,14 @@
 <?php require_once("bbdd/bbdd.php"); ?>
 <?php require_once("inc/funciones.php"); ?>
 <?php
-		$idPedido=recoge("idPedido");
-		if($idPedido==""){
-			header("Location:adminPedidos.php");
-			exit();
-		}
-		$pagina="editarEstado";
-		$titulo="Estado del pedido";
+		if ($_SESSION["admin"]==1){
+			$idPedido=recoge("idPedido");
+			if($idPedido==""){
+				header("Location:adminPedidos.php");
+				exit();
+			}
+			$pagina="editarEstado";
+			$titulo="Estado del pedido";
 ?>
 
 <?php
@@ -75,6 +76,10 @@
 			imprimirFormulario($estado);
 		}
 	}
+		}
+		else{
+			header("Location:index.php");
+		}
 	?>
  </div>
   

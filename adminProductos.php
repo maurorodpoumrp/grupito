@@ -2,8 +2,9 @@
 <?php require_once "bbdd/bbdd.php"; ?>
 <?php require_once "inc/funciones.php"; ?>
 <?php 	
-		$pagina="adminProductos";
-		$titulo="Admin productos";
+		if ($_SESSION["admin"]==1){	
+			$pagina="adminProductos";
+			$titulo="Admin productos";
 ?>
 <?php require_once "inc/encabezado.php"; ?>
 <main role="main">
@@ -93,7 +94,12 @@
 </nav>
 </div>
 </main>
-
+<?php
+		}
+		else{
+			header("Location:index.php");
+		}
+?>
 <script>
 	function Confirmar(Mensaje){
 		return (confirm(Mensaje))?true:false;

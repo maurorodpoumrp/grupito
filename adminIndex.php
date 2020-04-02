@@ -2,8 +2,9 @@
 <?php require_once "bbdd/bbdd.php"; ?>
 <?php require_once "inc/funciones.php"; ?>
 <?php 	
-		$pagina="adminIndex";
-		$titulo="Menú de admin";
+		if ($_SESSION["admin"]==1){
+			$pagina="adminIndex";
+			$titulo="Menú de admin";
 ?>
 <?php require_once "inc/encabezado.php"; ?>
 <main role="main">
@@ -19,6 +20,12 @@
 	<a href='adminPedidos.php' class='btn btn-info'>PEDIDOS</a>
 	<a href='adminUsuarios.php' class='btn btn-info'>USUARIOS</a>
  </div>
+ <?php
+		}
+		else{
+			header("Location:index.php");
+		}
+ ?>
   
 </main>
 <?php require_once "inc/pie.php"; ?>

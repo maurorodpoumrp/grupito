@@ -2,13 +2,14 @@
 <?php require_once("bbdd/bbdd.php"); ?>
 <?php require_once("inc/funciones.php"); ?>
 <?php
-		$idPedido=recoge("idPedido");
-		if($idPedido==""){
-			header("Location:mispedidos.php");
-			exit();
-		}
-		$pagina="adminDetallepedido";
-		$titulo="Detalle del pedido";
+		if ($_SESSION["admin"]==1){
+			$idPedido=recoge("idPedido");
+			if($idPedido==""){
+				header("Location:mispedidos.php");
+				exit();
+			}
+			$pagina="adminDetallepedido";
+			$titulo="Detalle del pedido";
 ?>
 <?php require_once("inc/encabezado.php"); ?>
 <main role="main">
@@ -101,6 +102,10 @@
 	</tfoot>
 	</table>
 	<?php
+		}
+		}
+		else{
+			header("Location:index.php");
 		}
 	?>
 </main> 
